@@ -20,6 +20,6 @@ export default class Bases {
     }
 
     info(){
-        return 'ID: ' + this.id + 'Nombre: ' + this.nombre + "   ";
+        return 'ID: ' + this.id + 'Nombre: ' + this.nombre + "<br>";
     }
 }

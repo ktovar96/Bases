@@ -9,12 +9,15 @@ export default class Lista {
             this.inicio = nuevo;
             nuevo.siguiente = nuevo;
             nuevo.anterior = nuevo;
-        } else {
+        } else if (this.buscar(nuevo.getId() )== null){
             let ultimo = this.inicio.anterior;
             nuevo.siguiente = this.inicio;
             nuevo.anterior = ultimo;
             ultimo.siguiente = nuevo;
             this.inicio.anterior = nuevo;
+            return nuevo;
+        } else {
+            return null;
         }
         return nuevo;
     }
@@ -41,13 +44,12 @@ export default class Lista {
 
     buscar(id){
         let temp = this.inicio;
-
-        while (temp.siguiente != this.inicio){
-            if (temp.getId() == id){
+            do {
+                if (temp.getId() == id){
                 return temp;
             } 
             temp = temp.siguiente;
-        }
+        } while (temp != this.inicio)
         return null;
     }
 
@@ -89,15 +91,16 @@ export default class Lista {
 
     crearTarjeta(base, hora, minutos){
         let temp = this._encontrarBase(base);
+        console.log(temp.info());
         let sum = 0;
         let txtMinutos = '';
         let tarjeta = '';
         let cont= 0;
-
+        minutos = parseInt(minutos);
         while (sum < minutos){
-            sum += temp.getMinutos();
-            cont += temp.getMinutos();
-
+            console.log('suma' + sum + ' , ' + minutos);
+            sum += parseInt(temp.getMinutos());
+            cont += parseInt(temp.getMinutos());
             if (cont> 59){
                 hora += 1;
                 cont = cont  - 60;
@@ -107,11 +110,16 @@ export default class Lista {
                     txtMinutos = cont;
                 }
             } else {
-                txtMinutos = cont;
+                if (cont < 10){
+                    txtMinutos = "0" + cont;
+                } else{
+                    txtMinutos = cont;
+                }
             }
             
             let txtHora = hora + ":" + txtMinutos;
-            tarjeta += "BASE:  " + temp.getNombre() + " HORA: " + txtHora + "   ";
+            tarjeta += "BASE:  " + temp.getNombre() + " HORA: " + txtHora + "\n";
+            console.log(tarjeta);
             temp = temp.siguiente;
         }
         return tarjeta;
